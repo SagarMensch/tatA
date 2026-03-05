@@ -87,3 +87,21 @@ If env vars are set in API environment:
 - `POST /generate/synthetic`
 - `POST /deploy/supabase`
 - `POST /deploy/neo4j`
+
+
+## Unified extraction (Docling -> LLM)
+Run the new unified system on a file or folder:
+```bash
+python unified_extraction_system.py <input_file_or_folder> --output-dir unified_extraction_output
+```
+
+Use OpenRouter key securely via env var (recommended):
+```bash
+export OPENROUTER_API_KEY='<your_openrouter_key>'
+python unified_extraction_system.py <input_file_or_folder> --output-dir unified_extraction_output
+```
+
+Notes:
+- Layer-1 always tries Docling first.
+- If Docling is unavailable, native extraction is used.
+- LLM enrichment uses free OpenRouter models with retry/backoff to reduce rate-limit hits.
