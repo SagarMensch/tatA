@@ -1,0 +1,4 @@
+body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; padding: 8px; }
+.card { display:flex; gap:10px; margin-bottom: 12px; }
+button { padding: 10px 14px; border-radius: 8px; border: 1px solid #ccc; cursor: pointer; }
+pre { background: #0f172a; color:#e2e8f0; padding: 12px; border-radius: 10px; min-height: 200px; }
