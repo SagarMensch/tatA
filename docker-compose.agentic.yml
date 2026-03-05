@@ -1,0 +1,49 @@
+version: '3.9'
+services:
+  frontend:
+    image: python:3.11-slim
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: bash -lc "python -m http.server 3000 --directory frontend"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  api:
+    image: python:3.11-slim
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: bash -lc "pip install fastapi uvicorn[standard] pydantic scikit-learn && uvicorn rtgs_fastapi_app:app --host 0.0.0.0 --port 8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - neo4j
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: rtgs
+      POSTGRES_USER: rtgs
+      POSTGRES_PASSWORD: rtgs
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  neo4j:
+    image: neo4j:5
+    environment:
+      NEO4J_AUTH: neo4j/neo4jpass
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4jdata:/data
+
+volumes:
+  pgdata:
+  neo4jdata:

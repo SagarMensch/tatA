@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>RTGS Agentic Control Tower</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <h1>RTGS Agentic Control Tower</h1>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="opsTab">Operations</button>
+    <button class="tab" data-tab="graphTab">Knowledge Graph</button>
+  </div>
+
+  <section id="opsTab" class="panel active">
+    <div class="card">
+      <button id="healthBtn">Check API Health</button>
+      <button id="demoBtn">Run Demo Reconciliation</button>
+      <button id="genBtn">Generate 2-Year Synthetic Data</button>
+    </div>
+    <pre id="output"></pre>
+  </section>
+
+  <section id="graphTab" class="panel">
+    <div class="card">
+      <button id="graphBtn">Load Knowledge Graph</button>
+    </div>
+    <div class="graph-wrap">
+      <svg id="graphSvg" viewBox="0 0 1100 520" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <div id="graphMeta" class="meta"></div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>

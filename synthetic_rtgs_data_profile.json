@@ -1,0 +1,26 @@
+{
+  "rtgs_transactions.csv": {
+    "rows": 110292,
+    "path": "synthetic_rtgs_data/rtgs_transactions.csv"
+  },
+  "sap_open_items.csv": {
+    "rows": 110292,
+    "path": "synthetic_rtgs_data/sap_open_items.csv"
+  },
+  "reconciliation_outcomes.csv": {
+    "rows": 110292,
+    "path": "synthetic_rtgs_data/reconciliation_outcomes.csv"
+  },
+  "policy_audit_log.csv": {
+    "rows": 110292,
+    "path": "synthetic_rtgs_data/policy_audit_log.csv"
+  },
+  "graph_edges.csv": {
+    "rows": 551460,
+    "path": "synthetic_rtgs_data/graph_edges.csv"
+  },
+  "date_range": {
+    "start": "2025-01-01",
+    "end": "2026-12-31"
+  }
+}
