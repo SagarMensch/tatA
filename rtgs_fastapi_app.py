@@ -21,6 +21,7 @@ import os
 from datetime import date
 from pathlib import Path
 import random
+import csv
 
 app = FastAPI(title="RTGS Agentic API", version="1.0.0")
 app.add_middleware(
@@ -141,3 +142,45 @@ def deploy_neo4j(wait_seconds: int = 60) -> Dict[str, object]:
     apply_neo4j_schema(uri, username, password, database)
     loaded = load_graph_edges(uri, username, password, database, edge_file)
     return {"status": "ok", "connectivity": conn, "loaded_edges": loaded}
+
+
+@app.get("/demo/knowledge-graph")
+def demo_knowledge_graph(max_nodes: int = 120, max_edges: int = 200) -> Dict[str, object]:
+    data_dir = Path("synthetic_rtgs_data")
+    ensure_synthetic_data(data_dir)
+    edge_file = data_dir / "graph_edges.csv"
+
+    nodes: Dict[str, Dict[str, str]] = {}
+    edges: List[Dict[str, str]] = []
+
+    with edge_file.open("r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            src_key = f"{row['src_type']}::{row['src_id']}"
+            dst_key = f"{row['dst_type']}::{row['dst_id']}"
+
+            if src_key not in nodes and len(nodes) < max_nodes:
+                nodes[src_key] = {
+                    "id": src_key,
+                    "type": row["src_type"].title().replace("_", ""),
+                    "label": row["src_id"][:18],
+                }
+            if dst_key not in nodes and len(nodes) < max_nodes:
+                nodes[dst_key] = {
+                    "id": dst_key,
+                    "type": row["dst_type"].title().replace("_", ""),
+                    "label": row["dst_id"][:18],
+                }
+
+            if src_key in nodes and dst_key in nodes:
+                edges.append({
+                    "source": src_key,
+                    "target": dst_key,
+                    "type": row["edge_type"],
+                    "weight": row.get("weight", "1"),
+                })
+
+            if len(edges) >= max_edges:
+                break
+
+    return {"nodes": list(nodes.values()), "edges": edges}
